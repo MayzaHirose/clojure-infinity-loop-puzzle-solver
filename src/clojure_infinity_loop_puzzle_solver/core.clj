@@ -27,7 +27,7 @@
 ;; Exemplo: (rotacionar 5)
 ;;          > 10
 (defn rotacionar [bloco]
-  (+ (bit-and (- (bit-shift-left 1 4) 1) (bit-shift-left (bit-shift-left bloco 1) 0)) (bit-shift-right bloco -3)))
+  (+ (bit-and (- (bit-shift-left 1 4) 1) (bit-shift-left (bit-shift-left bloco 1) 0)) (bit-shift-right bloco 3)))
 
 ;; Bloco -> List-Possibilidades
 ;; --------------
@@ -50,12 +50,9 @@
 ;; Exemplo: (jogo-possibilidades '((3 14 12) (3 11 12)))
 ;;          > '((3 6 12 9) (14 13 11 7) (12 9 3 6)) ((3 6 12 9) (11 7 14 13) (12 9 3 6))
 (defn jogo-possibilidades [jogo]
-        (if (= (count jogo) 0)
-          [],
-          (if (list? (first jogo))
-           (conj (jogo-possibilidades (first jogo))
-                   (jogo-possibilidades (rest jogo))),
-           (cons (bloco-possibilidades (first jogo))
-                (jogo-possibilidades (rest jogo))))))
+  (cond
+    (empty? jogo) nil
+    (list? (first jogo)) (conj (jogo-possibilidades (first jogo)) (jogo-possibilidades (rest jogo)))
+    :else (cons(bloco-possibilidades (first jogo)) (jogo-possibilidades (rest jogo)))))
 
 ;; *****************************FIM ROTACIONAR*************************************
